@@ -360,6 +360,11 @@ code, .mono {
   transform: translateY(-2px);
 }
 
+a.project-card {
+  color: inherit;
+  text-decoration: none;
+}
+
 .project-card-img {
   width: 100%;
   height: 200px;
@@ -404,6 +409,185 @@ code, .mono {
   color: var(--accent);
   border-radius: 4px;
   letter-spacing: 0.02em;
+}
+
+/* --- Project Detail Pages --- */
+.pipeline {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.pipeline-stage {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.pipeline-stage:last-child {
+  border-bottom: none;
+}
+
+.pipeline-stage-num {
+  font-family: var(--font-mono);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--border);
+  min-width: 3rem;
+  line-height: 1;
+  padding-top: 0.2rem;
+  user-select: none;
+}
+
+.pipeline-stage-body {
+  flex: 1;
+}
+
+.pipeline-stage-title {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.pipeline-stage-body p {
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.pipeline-stage-body ul {
+  list-style: none;
+  margin: 0.5rem 0 0.75rem;
+  padding: 0;
+}
+
+.pipeline-stage-body ul li {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  padding: 0.25rem 0 0.25rem 1.25rem;
+  position: relative;
+  line-height: 1.6;
+}
+
+.pipeline-stage-body ul li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.pipeline-branch {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin: 0.75rem 0;
+}
+
+.pipeline-branch-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.pipeline-branch p {
+  margin-bottom: 0;
+}
+
+.tech-decisions {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.tech-decisions h2 {
+  margin-bottom: 1.5rem;
+}
+
+.tech-decision {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.tech-decision:last-child {
+  border-bottom: none;
+}
+
+.tech-decision-label {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+  display: block;
+}
+
+.tech-decision p {
+  font-size: 0.9rem;
+  margin-bottom: 0;
+}
+
+.infra-note {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  margin-top: 3rem;
+}
+
+.infra-note h4 {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.infra-note ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 2rem;
+}
+
+.infra-note ul li {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 3rem;
+  transition: color 0.2s ease;
+}
+
+.back-link:hover {
+  color: var(--accent);
+}
+
+@media (max-width: 768px) {
+  .pipeline-stage {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .pipeline-stage-num {
+    font-size: 1.5rem;
+    min-width: auto;
+  }
 }
 
 /* --- Timeline (CV Page) --- */

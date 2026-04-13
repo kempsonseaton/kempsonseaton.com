@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI News Briefing Pipeline — Louis Kempson-Seaton</title>
+  <meta name="description" content="Automated daily AI news digest: collects from Reddit, lab blogs, and research papers, scores with Claude, delivers by email every morning.">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">louis<span class="accent">::</span>kempson-seaton</a>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../projects.html">Projects</a></li>
+        <li><a href="../cv.html">CV</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="page-content">
+    <div class="container">
+
+      <a href="../projects.html" class="back-link">← Projects</a>
+
+      <section class="hero">
+        <span class="hero-label">n8n · Claude API · Self-hosted</span>
+        <h1>AI News Briefing Pipeline</h1>
+        <p>
+          Collects AI news from 16 Reddit communities, 6 lab blogs, and two research paper
+          feeds. Claude scores and filters against a personal interest profile. A formatted
+          email arrives every morning at 7:00am.
+        </p>
+      </section>
+
+      <hr class="divider">
+
+      <section class="section fade-in">
+        <h2>Architecture</h2>
+        <p>Five-stage pipeline: Collect → Normalise → Deduplicate → Score → Distribute.</p>
+
+        <div class="pipeline">
+
+          <div class="pipeline-stage">
+            <span class="pipeline-stage-num">01</span>
+            <div class="pipeline-stage-body">
+              <div class="pipeline-stage-title">Parallel Data Collection</div>
+              <p>Three source branches run simultaneously and merge into a single normalised array
+              (title, URL, score, source type, snippet, timestamp).</p>
+
+              <div class="pipeline-branch">
+                <span class="pipeline-branch-label">Reddit</span>
+                <p>16 AI-focused subreddits via public JSON endpoints — r/LocalLLaMA,
+                r/MachineLearning, r/ClaudeCode, r/OpenAI, r/singularity, and others.
+                Filtered to top posts from the last 24 hours with at least 5 upvotes.
+                Uses <code>.json</code> endpoints rather than the official API; Reddit moved
+                developer registration to manual approval in November 2025.</p>
+              </div>
+
+              <div class="pipeline-branch">
+                <span class="pipeline-branch-label">Lab Blogs</span>
+                <p>RSS feeds from Anthropic, OpenAI, Google AI, Meta AI, Mistral, and
+                Hugging Face. Anthropic has no native RSS — uses a community-maintained
+                GitHub-hosted feed updated hourly via GitHub Actions.</p>
+              </div>
+
+              <div class="pipeline-branch">
+                <span class="pipeline-branch-label">Research Papers</span>
+                <p>arXiv RSS (cs.AI, cs.CL) combined with Hugging Face Daily Papers.
+                arXiv capped at 60 items; the HF curated subset is prioritised for
+                higher signal-to-noise ratio.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="pipeline-stage">
+            <span class="pipeline-stage-num">02</span>
+            <div class="pipeline-stage-body">
+              <div class="pipeline-stage-title">Cross-Day Deduplication</div>
+              <p>n8n workflow static data tracks previously seen URLs across executions.
+              A 7-day rolling window prevents the same story appearing in consecutive
+              briefings.</p>
+            </div>
+          </div>
+
+          <div class="pipeline-stage">
+            <span class="pipeline-stage-num">03</span>
+            <div class="pipeline-stage-body">
+              <div class="pipeline-stage-title">AI Scoring — Claude Haiku</div>
+              <p>Items are pre-sorted by engagement and capped at 100 with a quota
+              system: 60 Reddit, 15 blogs, 25 papers.</p>
+              <p>Claude Haiku deduplicates items covering the same story, scores
+              each 1–5 against a personal interest profile (practical AI tooling,
+              industry moves, novel research, career-relevant skills, AI safety),
+              and drops anything below 3.</p>
+              <p>Typical run: 230+ items reduced to 20–30.</p>
+            </div>
+          </div>
+
+          <div class="pipeline-stage">
+            <span class="pipeline-stage-num">04</span>
+            <div class="pipeline-stage-body">
+              <div class="pipeline-stage-title">Summary Generation — Claude Sonnet</div>
+              <p>Filtered items are sent to Claude Sonnet, which produces a formatted
+              HTML email grouped by category with a 1–2 sentence explanation per item.
+              Designed to be scannable in under 3 minutes.</p>
+            </div>
+          </div>
+
+          <div class="pipeline-stage">
+            <span class="pipeline-stage-num">05</span>
+            <div class="pipeline-stage-body">
+              <div class="pipeline-stage-title">Distribution</div>
+              <p>Gmail SMTP. Delivered at 7:00am daily.</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="section fade-in">
+        <div class="tech-decisions">
+          <h2>Technical Decisions</h2>
+
+          <div class="tech-decision">
+            <span class="tech-decision-label">Two-model architecture</span>
+            <p>Haiku for classification (fast, cheap), Sonnet for writing (higher quality).
+            Running cost is approximately £0.05–0.15/day.</p>
+          </div>
+
+          <div class="tech-decision">
+            <span class="tech-decision-label">Why Reddit over Twitter/X and Bluesky</span>
+            <p>Twitter/X API costs $100/month. Bluesky was tested but AI content volume
+            was insufficient. Reddit captures viral content from both platforms while
+            remaining free via public JSON endpoints.</p>
+          </div>
+
+          <div class="tech-decision">
+            <span class="tech-decision-label">Fault isolation per source branch</span>
+            <p>Each source branch uses try/catch independently. A single failing subreddit
+            or RSS feed does not abort the workflow — the remaining sources complete
+            and the briefing still sends.</p>
+          </div>
+
+        </div>
+      </section>
+
+      <div class="infra-note fade-in">
+        <h4>Infrastructure</h4>
+        <ul>
+          <li>Raspberry Pi 5 · Docker</li>
+          <li>n8n (self-hosted, open-source)</li>
+          <li>Claude Haiku — classification</li>
+          <li>Claude Sonnet — generation</li>
+          <li>~£10–15/month all-in</li>
+          <li>Zero manual intervention — cron daily</li>
+        </ul>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <p>&copy; 2026 Louis Kempson-Seaton</p>
+      <ul class="footer-links">
+        <li><a href="https://www.linkedin.com/in/lkempsonseaton" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://github.com/zampano95" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="mailto:louis@kempsonseaton.com">Email</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

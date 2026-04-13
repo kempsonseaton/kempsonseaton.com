@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Market Intelligence Pipeline — Louis Kempson-Seaton</title>
+  <meta name="description" content="Automated daily pipeline that searches UK job boards for AI automation roles, scores each listing against a professional profile, and delivers a colour-coded digest with application advice.">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">louis<span class="accent">::</span>kempson-seaton</a>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../projects.html">Projects</a></li>
+        <li><a href="../cv.html">CV</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="page-content">
+    <div class="container">
+
+      <a href="../projects.html" class="back-link">← Projects</a>
+
+      <section class="hero">
+        <span class="hero-label">n8n · Claude API · Adzuna API</span>
+        <h1>Job Market Intelligence Pipeline</h1>
+        <p>
+          Searches UK job boards daily for AI automation roles, scores each listing
+          against a detailed professional profile, and delivers a colour-coded HTML
+          email with personalised application advice and a skills gap radar.
+        </p>
+      </section>
+
+      <hr class="divider">
+
+      <section class="section fade-in">
+        <h2>Architecture</h2>
+        <p>Five-stage pipeline: Search → Analyse → Skills Intelligence → Format → Distribute.</p>
+
+        <div class="pipeline">
+
+          <div class="pipeline-stage">
+            <span class="pipeline-stage-num">01</span>
+            <div class="pipeline-stage-body">
+              <div class="pipeline-stage-title">Job Market Search</div>
+              <p>Adzuna API (UK job aggregator) queried across 10 search terms: AI automation,
+              LLM engineer, n8n automation, prompt engineer, AI consultant, workflow automation,
+              AI operations, AI agent developer, and others.</p>
+              <p>Each query returns up to 20 results filtered to the last 3 days.
+              Results are deduplicated by job ID across queries.
+              Typical daily yield: 100–150 unique listings.</p>
+            </div>
+          </div>
+
+          <div class="pipeline-stage">
+            <span class="pipeline-stage-num">02</span>
+            <div class="pipeline-stage-body">
+              <div class="pipeline-stage-title">AI Profile Matching — Claude Sonnet</div>
+              <p>All listings are sent with a detailed professional profile. Claude performs
+              five analyses per job:</p>
+              <ul>
+                <li>Relevance score (1–5): alignment with AI automation career direction</li>
+                <li>Fit score (1–5): honest assessment against current experience</li>
+                <li>Categorisation: strong_match / worth_applying / stretch / out_of_reach</li>
+                <li>Work mode extraction: remote / hybrid / office / unknown — non-London,
+                non-remote roles filtered out</li>
+                <li>Application advice: which specific experience to emphasise</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="pipeline-stage">
+            <span class="pipeline-stage-num">03</span>
+            <div class="pipeline-stage-body">
+              <div class="pipeline-stage-title">Skills Intelligence — Claude Haiku</div>
+              <p>Extracts skill frequency across all matched listings and cross-references
+              against the candidate profile. Each skill gets a traffic-light status:
+              green (have it), amber (partial), red (gap).</p>
+              <p>Produces three prioritised learning recommendations based on
+              high-frequency gaps. The job market becomes a personalised curriculum
+              recommendation engine rather than a passive digest.</p>
+            </div>
+          </div>
+
+          <div class="pipeline-stage">
+            <span class="pipeline-stage-num">04</span>
+            <div class="pipeline-stage-body">
+              <div class="pipeline-stage-title">Email Formatting</div>
+              <p>Colour-coded HTML email: green (strong match), yellow (worth applying),
+              orange (stretch), red (out of reach). Each listing shows title, company,
+              location, work mode, salary, scores, reasoning, and specific application advice.</p>
+              <p>A Skills Radar section follows with a frequency table and the three
+              prioritised learning recommendations.</p>
+            </div>
+          </div>
+
+          <div class="pipeline-stage">
+            <span class="pipeline-stage-num">05</span>
+            <div class="pipeline-stage-body">
+              <div class="pipeline-stage-title">Distribution</div>
+              <p>Gmail SMTP. Delivered at 7:30am daily.</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="section fade-in">
+        <div class="tech-decisions">
+          <h2>Technical Decisions</h2>
+
+          <div class="tech-decision">
+            <span class="tech-decision-label">Adzuna over LinkedIn</span>
+            <p>LinkedIn blocks scraping. Adzuna provides a free API that aggregates
+            thousands of UK job boards, giving broader coverage without access
+            restrictions.</p>
+          </div>
+
+          <div class="tech-decision">
+            <span class="tech-decision-label">Wide net + AI filter over keyword matching</span>
+            <p>10 broad search queries cast a wide net; Claude filters false positives.
+            This catches non-standard job titles that keyword filtering would miss —
+            "Intelligent Process Automation Lead" won't appear in a search for
+            "n8n automation" but Claude recognises the relevance.</p>
+          </div>
+
+          <div class="tech-decision">
+            <span class="tech-decision-label">Honest fit scoring</span>
+            <p>The prompt explicitly instructs Claude to be honest rather than
+            optimistic. Out-of-reach roles are still surfaced — categorised clearly —
+            so the digest builds an accurate picture of the market without encouraging
+            wasted applications.</p>
+          </div>
+
+          <div class="tech-decision">
+            <span class="tech-decision-label">Defensive JSON parsing</span>
+            <p>Strips markdown backticks, locates array boundaries, handles truncated
+            responses. Claude occasionally wraps JSON in markdown despite explicit
+            instructions not to — handling this in the workflow prevents silent
+            failures in production.</p>
+          </div>
+
+          <div class="tech-decision">
+            <span class="tech-decision-label">Token budget and payload truncation</span>
+            <p>Initial implementation hit timeouts sending 131 listings in a single
+            request. Solved by increasing <code>max_tokens</code> to 8192 and adding
+            payload truncation to keep requests within a reliable size.</p>
+          </div>
+
+        </div>
+      </section>
+
+      <div class="infra-note fade-in">
+        <h4>Infrastructure</h4>
+        <ul>
+          <li>Raspberry Pi 5 · Docker</li>
+          <li>n8n (self-hosted, open-source)</li>
+          <li>Claude Sonnet — profile matching</li>
+          <li>Claude Haiku — skills analysis</li>
+          <li>~£10–15/month all-in</li>
+          <li>Zero manual intervention — cron daily</li>
+        </ul>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <p>&copy; 2026 Louis Kempson-Seaton</p>
+      <ul class="footer-links">
+        <li><a href="https://www.linkedin.com/in/lkempsonseaton" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://github.com/zampano95" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="mailto:louis@kempsonseaton.com">Email</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
