@@ -9,7 +9,8 @@
   <meta property="og:description" content="AI Automation & Business Automation specialist. Building intelligent workflows with n8n, Power Automate, and more.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://kempsonseaton.com">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css?v=20260416">
   <style>
     .n8n-hero { padding: 2rem 0 0; }
     .n8n-flow { animation: n8nDash 1.2s linear infinite; }
@@ -42,7 +43,7 @@
 
       <!-- Workflow Hero -->
       <section class="n8n-hero">
-        <div style="width:100%;overflow-x:auto;display:flex;justify-content:center;padding:2rem 0 2rem;">
+        <div class="n8n-hero-svg-wrap">
           <svg viewBox="0 0 1060 410" width="1060" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;display:block;overflow:visible;">
             <defs>
               <linearGradient id="frost" x1="0" y1="0" x2="0" y2="1">
@@ -129,8 +130,8 @@
               <text x="420" y="392" text-anchor="middle" fill="#d4d4d8" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="500">Curriculum Vitae</text>
             </a>
 
-            <!-- MERGE NODE (blue) -->
-            <g>
+            <!-- MERGE NODE (blue) — links to LinkedIn -->
+            <a href="https://www.linkedin.com/in/lkempsonseaton" target="_blank" rel="noopener">
               <rect x="680" y="170" width="80" height="80" rx="14" fill="#1e1e2a" stroke="rgba(91,196,224,0.9)" stroke-width="1.5" filter="url(#glowB)"/>
               <rect x="680" y="170" width="80" height="80" rx="14" fill="url(#frost)"/>
               <rect x="680" y="170" width="80" height="40" fill="url(#shine)" clip-path="url(#clipMerge)"/>
@@ -142,8 +143,8 @@
               <line x1="714" y1="219" x2="726" y2="219" stroke="#5bc4e0" stroke-width="2"/>
               <line x1="709" y1="206" x2="709" y2="214" stroke="#5bc4e0" stroke-width="2"/>
               <line x1="731" y1="206" x2="731" y2="214" stroke="#5bc4e0" stroke-width="2"/>
-              <text x="720" y="272" text-anchor="middle" fill="#d4d4d8" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="500">Merge</text>
-            </g>
+              <text x="720" y="272" text-anchor="middle" fill="#d4d4d8" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="500">LinkedIn</text>
+            </a>
 
             <!-- OUTPUT NODE (green) -->
             <a href="mailto:louis@kempsonseaton.com">
@@ -157,14 +158,35 @@
           </svg>
         </div>
 
+        <div class="mobile-hero-nav">
+          <a href="about.html">
+            <span class="nav-dot" style="background:#ff6d5a;"></span>
+            About Me
+            <span class="nav-arrow">&rarr;</span>
+          </a>
+          <a href="projects.html">
+            <span class="nav-dot" style="background:#ff6d5a;"></span>
+            Projects
+            <span class="nav-arrow">&rarr;</span>
+          </a>
+          <a href="cv.html">
+            <span class="nav-dot" style="background:#ff6d5a;"></span>
+            Curriculum Vitae
+            <span class="nav-arrow">&rarr;</span>
+          </a>
+          <a href="mailto:louis@kempsonseaton.com">
+            <span class="nav-dot" style="background:#4ade80;"></span>
+            Get In Touch
+            <span class="nav-arrow">&rarr;</span>
+          </a>
+        </div>
+
         <!-- Title below workflow -->
-        <div style="text-align:center;margin-top:2.5rem;">
-          <h1 style="font-family:'JetBrains Mono',monospace;font-size:clamp(1rem,2.5vw,1.5rem);font-weight:600;color:#ededf0;letter-spacing:0.08em;text-transform:uppercase;">
-            Louis Kempson-Seaton <span style="color:#555;">—</span> <span style="color:#3b82f6;">AI Automation Specialist</span>
-          </h1>
-          <p style="color:#c4c4cc;margin-top:0.75rem;font-size:1.05rem;">Building intelligent workflows that eliminate busywork.</p>
-          <div style="margin-top:1.75rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-            <a href="projects.html" class="btn btn-primary">View Projects →</a>
+        <div class="hero-title">
+          <h1>Louis Kempson-Seaton<span class="caret"></span><br><span class="role">AI Automation Specialist</span></h1>
+          <p class="hero-subtitle">Building intelligent workflows that eliminate busywork.</p>
+          <div class="hero-cta">
+            <a href="projects.html" class="btn btn-primary">View Projects &rarr;</a>
             <a href="cv.html" class="btn btn-outline">See my CV</a>
           </div>
         </div>
@@ -178,17 +200,17 @@
           <h2>What I work with</h2>
         </div>
         <div class="skills-grid">
-          <div class="card">
+          <div class="card card-accent-blue">
             <span class="card-label">Automation</span>
             <h3>Workflow Orchestration</h3>
             <p>Building multi-step automations with n8n and Power Automate — connecting APIs, processing data, and triggering actions across platforms.</p>
           </div>
-          <div class="card">
+          <div class="card card-accent-orange">
             <span class="card-label">CRM &amp; Campaigns</span>
             <h3>Customer Communications</h3>
             <p>5+ years designing and delivering cross-channel campaigns at scale — Braze, Unica, Salesforce Marketing Cloud, Pega.</p>
           </div>
-          <div class="card">
+          <div class="card card-accent-green">
             <span class="card-label">Data</span>
             <h3>Analysis &amp; Reporting</h3>
             <p>SQL, Python, Power BI — from querying complex datasets to building reports that drive decisions.</p>
@@ -203,7 +225,7 @@
           <p>Automations I've built to solve real problems.</p>
         </div>
         <div class="projects-grid">
-          <a href="projects/ai-news-briefing.html" class="project-card">
+          <a href="projects/ai-news-briefing.html" class="project-card card-accent-orange">
             <div class="project-card-img" style="background-image: url('img/AIBriefing.png'); background-size: cover; background-position: top;"></div>
             <div class="project-card-body">
               <h3>AI News Briefing Pipeline</h3>
@@ -216,7 +238,7 @@
               </div>
             </div>
           </a>
-          <a href="projects/job-market-intelligence.html" class="project-card">
+          <a href="projects/job-market-intelligence.html" class="project-card card-accent-green">
             <div class="project-card-img" style="background-image: url('img/JobHunt.png'); background-size: cover; background-position: top;"></div>
             <div class="project-card-body">
               <h3>Job Market Intelligence Pipeline</h3>
@@ -237,6 +259,9 @@
 
   <!-- Footer -->
   <footer class="footer">
+    <div class="footer-cta">
+      <p>Working on something that needs automating? <a href="mailto:louis@kempsonseaton.com">louis@kempsonseaton.com</a></p>
+    </div>
     <div class="footer-inner">
       <p>&copy; 2026 Louis Kempson-Seaton</p>
       <ul class="footer-links">

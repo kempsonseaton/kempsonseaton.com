@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projects — Louis Kempson-Seaton</title>
   <meta name="description" content="AI and business automation projects — n8n workflows, integrations, and tools.">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css?v=20260416">
 </head>
 <body>
 
@@ -29,8 +30,10 @@
   <main class="page-content">
     <div class="container">
 
-      <section class="hero">
-        <span class="hero-label">Projects</span>
+      <section class="hero page-projects">
+        <div class="page-sig">
+          <span class="hero-label">Projects</span>
+        </div>
         <h1>Things I've built.</h1>
         <p>
           Automation workflows and tools — each one solving a real problem. 
@@ -44,7 +47,7 @@
         <div class="projects-grid">
 
           <!-- Project 1 — AI News Briefing Pipeline -->
-          <a href="projects/ai-news-briefing.html" class="project-card">
+          <a href="projects/ai-news-briefing.html" class="project-card card-accent-orange">
             <div class="project-card-img" style="background-image: url('img/AIBriefing.png'); background-size: cover; background-position: top;"></div>
             <div class="project-card-body">
               <h3>AI News Briefing Pipeline</h3>
@@ -61,7 +64,7 @@
           </a>
 
           <!-- Project 2 — Job Market Intelligence Pipeline -->
-          <a href="projects/job-market-intelligence.html" class="project-card">
+          <a href="projects/job-market-intelligence.html" class="project-card card-accent-green">
             <div class="project-card-img" style="background-image: url('img/JobHunt.png'); background-size: cover; background-position: top;"></div>
             <div class="project-card-body">
               <h3>Job Market Intelligence Pipeline</h3>
@@ -78,8 +81,23 @@
           </a>
 
           <!-- Project 3 — Self-Hosted Infrastructure -->
-          <a href="projects/pi-infrastructure.html" class="project-card">
-            <div class="project-card-img">Self-Hosted Infrastructure</div>
+          <a href="projects/pi-infrastructure.html" class="project-card card-accent-teal">
+            <div class="project-card-placeholder">
+              <div class="placeholder-terminal">
+                <div class="placeholder-terminal-bar">
+                  <span style="background:#ff5f57;"></span>
+                  <span style="background:#febc2e;"></span>
+                  <span style="background:#28c840;"></span>
+                </div>
+                <div class="placeholder-terminal-body">
+                  <span style="color:#10b981;">$</span> docker ps<br>
+                  <span style="color:#71717a;">homeassistant &nbsp;Up 4d</span><br>
+                  <span style="color:#71717a;">jellyfin &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Up 4d</span><br>
+                  <span style="color:#71717a;">pihole &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Up 4d</span><br>
+                  <span style="color:#10b981;">$</span> <span style="color:#3b82f6;">_</span>
+                </div>
+              </div>
+            </div>
             <div class="project-card-body">
               <h3>Self-Hosted Infrastructure</h3>
               <p>Raspberry Pi 5 running 10+ Docker services — Home Assistant, n8n, Nextcloud, Pi-hole, Jellyfin, and more. Managed autonomously via Claude Code with an Obsidian memory system and nightly automated security audits.</p>
@@ -95,8 +113,23 @@
           </a>
 
           <!-- This Website -->
-          <a href="https://github.com/kempsonseaton/kempsonseaton.com" target="_blank" rel="noopener" class="project-card">
-            <div class="project-card-img">This site</div>
+          <a href="https://github.com/kempsonseaton/kempsonseaton.com" target="_blank" rel="noopener" class="project-card card-accent-blue">
+            <div class="project-card-placeholder">
+              <div class="placeholder-terminal">
+                <div class="placeholder-terminal-bar">
+                  <span style="background:#ff5f57;"></span>
+                  <span style="background:#febc2e;"></span>
+                  <span style="background:#28c840;"></span>
+                </div>
+                <div class="placeholder-terminal-body">
+                  <span style="color:#10b981;">$</span> curl kempsonseaton.com<br>
+                  <span style="color:#71717a;">&lt;!DOCTYPE html&gt;</span><br>
+                  <span style="color:#71717a;">&lt;html lang="en"&gt;</span><br>
+                  <span style="color:#71717a;">&lt;head&gt;...</span><br>
+                  <span style="color:#10b981;">$</span> <span style="color:#3b82f6;">_</span>
+                </div>
+              </div>
+            </div>
             <div class="project-card-body">
               <h3>kempsonseaton.com</h3>
               <p>This portfolio site — static HTML/CSS/JS served from a Raspberry Pi at home via Cloudflare Tunnel. Built to showcase automation projects and host future AI agents.</p>
@@ -117,6 +150,9 @@
 
   <!-- Footer -->
   <footer class="footer">
+    <div class="footer-cta">
+      <p>Working on something that needs automating? <a href="mailto:louis@kempsonseaton.com">louis@kempsonseaton.com</a></p>
+    </div>
     <div class="footer-inner">
       <p>&copy; 2026 Louis Kempson-Seaton</p>
       <ul class="footer-links">
