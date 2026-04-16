@@ -280,94 +280,131 @@ code, .mono {
 }
 
 /* --- Buttons --- */
-/* Modelled on the workflow nodes in the homepage SVG: dark glass fill,
-   coloured 1.5px border, frosted gradient overlay, top-edge shine,
-   coloured drop-shadow glow that intensifies on hover. The trailing
-   arrow nudges right and the whole button lifts a couple of pixels. */
+/* Tactile keyboard chord. A real keycap on the left shows the keyboard
+   shortcut character; the body holds the action label and an arrow.
+   The keycap depresses on click or when the bound shortcut is fired
+   from JavaScript. Single accent colour (teal for primary, neutral for
+   outline). No glass, no halo. */
 .btn {
-  position: relative;
   display: inline-flex;
-  align-items: center;
-  gap: 0.65rem;
-  padding: 0.85rem 1.6rem;
-  border-radius: 10px;
+  align-items: stretch;
+  gap: 0;
+  padding: 0;
+  border-radius: 7px;
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 500;
   letter-spacing: 0.02em;
-  transition:
-    transform 0.2s var(--ease-out),
-    background 0.2s ease,
-    border-color 0.2s ease,
-    box-shadow 0.25s ease,
-    color 0.2s ease;
   cursor: pointer;
-  border: 1.5px solid;
-  overflow: hidden;
-  isolation: isolate;
+  background: transparent;
+  border: none;
   text-decoration: none;
+  color: var(--text-primary);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.01) 100%);
-  pointer-events: none;
-  z-index: -2;
+.btn-key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  padding: 0.55rem 0.65rem;
+  background: linear-gradient(180deg, #2c2c36 0%, #1c1c24 100%);
+  border: 1px solid #3a3a44;
+  border-bottom: 3px solid #11111a;
+  border-right: 1px solid #11111a;
+  border-radius: 6px 0 0 6px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+  transition: transform 0.08s ease, border-color 0.18s ease, color 0.18s ease, border-bottom-width 0.08s ease;
+  position: relative;
+  z-index: 1;
 }
 
-.btn::after {
-  content: '';
-  position: absolute;
-  inset: 0 0 55% 0;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.11) 0%, rgba(255, 255, 255, 0.02) 60%, transparent 100%);
-  pointer-events: none;
-  z-index: -1;
-  border-radius: 10px 10px 0 0;
-}
-
-.btn:hover { transform: translateY(-2px); }
-.btn:active { transform: translateY(0); }
-
-.btn-primary {
-  background: rgba(45, 212, 168, 0.08);
-  color: var(--node-teal);
-  border-color: rgba(45, 212, 168, 0.65);
-  box-shadow: 0 0 22px rgba(45, 212, 168, 0.22), inset 0 0 0 1px rgba(45, 212, 168, 0.08);
-}
-
-.btn-primary:hover {
-  background: rgba(45, 212, 168, 0.16);
-  color: #ffffff;
-  border-color: var(--node-teal);
-  box-shadow: 0 0 32px rgba(45, 212, 168, 0.55), inset 0 0 0 1px rgba(45, 212, 168, 0.3);
-}
-
-.btn-outline {
-  background: rgba(91, 196, 224, 0.04);
-  color: var(--node-blue);
-  border-color: rgba(91, 196, 224, 0.45);
-  box-shadow: 0 0 18px rgba(91, 196, 224, 0.12), inset 0 0 0 1px rgba(91, 196, 224, 0.05);
-}
-
-.btn-outline:hover {
-  background: rgba(91, 196, 224, 0.12);
-  color: #ffffff;
-  border-color: var(--node-blue);
-  box-shadow: 0 0 26px rgba(91, 196, 224, 0.4), inset 0 0 0 1px rgba(91, 196, 224, 0.25);
+.btn-body {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.6rem 1rem 0.6rem 0.9rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: none;
+  border-radius: 0 6px 6px 0;
+  color: var(--text-secondary);
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
 }
 
 .btn-arrow {
   font-family: var(--font-mono);
-  font-size: 1em;
   display: inline-block;
-  transition: transform 0.25s var(--ease-out);
+  margin-left: 0.35rem;
+  color: var(--text-muted);
+  transition: transform 0.2s var(--ease-out), color 0.2s ease;
 }
 
-.btn:hover .btn-arrow { transform: translateX(4px); }
-.btn-arrow.is-external { font-size: 0.95em; }
-.btn:hover .btn-arrow.is-external { transform: translate(2px, -2px); }
+.btn-primary:hover .btn-key,
+.btn-primary.is-pressed .btn-key {
+  border-color: var(--node-teal);
+  color: var(--node-teal);
+}
+.btn-primary:hover .btn-body,
+.btn-primary.is-pressed .btn-body {
+  background: var(--bg-card-hover);
+  border-color: var(--node-teal);
+  color: var(--text-primary);
+}
+.btn-primary:hover .btn-arrow,
+.btn-primary.is-pressed .btn-arrow {
+  color: var(--node-teal);
+  transform: translateX(3px);
+}
+
+.btn-outline:hover .btn-key,
+.btn-outline.is-pressed .btn-key {
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
+}
+.btn-outline:hover .btn-body,
+.btn-outline.is-pressed .btn-body {
+  background: var(--bg-card-hover);
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
+}
+.btn-outline:hover .btn-arrow,
+.btn-outline.is-pressed .btn-arrow {
+  color: var(--text-primary);
+  transform: translateX(3px);
+}
+
+.btn:active .btn-key,
+.btn.is-pressed .btn-key {
+  transform: translateY(2px);
+  border-bottom-width: 1px;
+  border-bottom-color: #1a1a22;
+  box-shadow:
+    inset 0 2px 0 rgba(0, 0, 0, 0.35),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* Workflow packet animation. The packet circle is moved along an SVG
+   path by JavaScript using getPointAtLength; CSS only handles the
+   destination-node pulse. */
+@keyframes wfNodePulse {
+  0%, 100% { stroke-width: 1.5; }
+  30%      { stroke-width: 4; }
+}
+
+.wf-pulse {
+  animation: wfNodePulse 0.65s var(--ease-out);
+}
 
 /* --- Cards --- */
 .card {
@@ -858,10 +895,7 @@ a.project-card {
 
   .hero-cta {
     flex-direction: column;
-  }
-
-  .btn {
-    justify-content: center;
+    align-items: center;
   }
 
   .projects-grid {
